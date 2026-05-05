@@ -62,7 +62,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
       features: [
         '조직 1개',
         '관리자 1명',
-        '문서 50개',
+        '문서 10개',
         '저장 공간 1GB',
         '월 질문 500회',
         '기본 기능',
