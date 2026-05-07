@@ -3,6 +3,8 @@ import { Database, Zap, Shield, Users, ArrowRight, Check, MessageSquare, FileTex
 
 type Language = 'ko' | 'en';
 
+const languageStorageKey = 'kl-store-language';
+
 interface LandingPageProps {
   onGetStarted: () => void;
   onLogin: () => void;
@@ -314,21 +316,32 @@ const featureVisuals = [
 
 const useCaseIcons = [MessageSquare, FileText, Brain, Code];
 
+function detectInitialLanguage(): Language {
+  if (typeof window === 'undefined') {
+    return 'en';
+  }
+
+  const savedLanguage = window.localStorage.getItem(languageStorageKey);
+  if (savedLanguage === 'ko' || savedLanguage === 'en') {
+    return savedLanguage;
+  }
+
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const languages = navigator.languages.length ? navigator.languages : [navigator.language];
+  const hasKoreanLocale = languages.some((locale) => locale.toLowerCase().startsWith('ko'));
+
+  return timezone === 'Asia/Seoul' || hasKoreanLocale ? 'ko' : 'en';
+}
+
 export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window === 'undefined') {
-      return 'ko';
-    }
-
-    return window.localStorage.getItem('kl-store-language') === 'en' ? 'en' : 'ko';
-  });
+  const [language, setLanguage] = useState<Language>(detectInitialLanguage);
 
   const t = translations[language];
 
   useEffect(() => {
     document.documentElement.lang = language;
-    window.localStorage.setItem('kl-store-language', language);
+    window.localStorage.setItem(languageStorageKey, language);
   }, [language]);
 
   const showComingSoon = () => setShowComingSoonModal(true);
