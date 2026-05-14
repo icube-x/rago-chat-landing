@@ -316,6 +316,93 @@ const featureVisuals = [
 
 const useCaseIcons = [MessageSquare, FileText, Brain, Code];
 
+const screenshotShowcase = {
+  ko: {
+    eyebrow: '서비스 미리보기',
+    title: '실제 화면으로 확인하는 KL-Store',
+    description: '문서 업로드부터 RAG 실행, 답변 근거 확인, 운영 관리까지 핵심 흐름을 자동으로 살펴보세요.',
+    items: [
+      {
+        title: '대시보드',
+        description: '조직의 지식베이스 현황과 주요 사용 지표를 한 화면에서 확인합니다.',
+        image: '/images/대시보드.jpg',
+      },
+      {
+        title: '문서 관리',
+        description: '업로드된 문서를 분류하고 처리 상태를 관리해 검색 가능한 지식으로 전환합니다.',
+        image: '/images/문서관리.jpg',
+      },
+      {
+        title: 'RAG 실행',
+        description: '실제 문서 기반으로 질문을 테스트하고 답변 품질을 빠르게 검증합니다.',
+        image: '/images/RAG 실행해보기.jpg',
+      },
+      {
+        title: '사용자 화면',
+        description: '사용자 관점에서 답변과 관련 정보를 살펴보는 흐름을 확인합니다.',
+        image: '/images/사용자화면2.jpg',
+      },
+      {
+        title: '답변 근거',
+        description: 'AI 답변이 어떤 원문과 청크를 근거로 생성됐는지 투명하게 추적합니다.',
+        image: '/images/RAG 답변 근거.jpg',
+      },
+      {
+        title: 'QA 관리',
+        description: '질문과 답변 이력을 관리하고 평가 흐름을 통해 서비스 품질을 개선합니다.',
+        image: '/images/QA 관리.jpg',
+      },
+      {
+        title: '사용자 관리',
+        description: '조직 구성원과 권한을 관리해 팀 단위로 안전하게 지식을 운영합니다.',
+        image: '/images/사용자관리.jpg',
+      },
+    ],
+  },
+  en: {
+    eyebrow: 'Product Preview',
+    title: 'See KL-Store in Real Screens',
+    description: 'Walk through the core flow from document upload to RAG testing, answer evidence, and admin operations.',
+    items: [
+      {
+        title: 'Dashboard',
+        description: 'Track knowledge base status and key usage signals from a single operational view.',
+        image: '/images/대시보드.jpg',
+      },
+      {
+        title: 'Document Management',
+        description: 'Organize uploaded files and turn processed documents into searchable knowledge.',
+        image: '/images/문서관리.jpg',
+      },
+      {
+        title: 'RAG Testing',
+        description: 'Test questions against real documents and validate response quality quickly.',
+        image: '/images/RAG 실행해보기.jpg',
+      },
+      {
+        title: 'User Screen',
+        description: 'Preview the user-facing flow for reading answers and related information.',
+        image: '/images/사용자화면2.jpg',
+      },
+      {
+        title: 'Answer Evidence',
+        description: 'Trace which source documents and chunks support each AI-generated answer.',
+        image: '/images/RAG 답변 근거.jpg',
+      },
+      {
+        title: 'QA Management',
+        description: 'Manage question history and improve quality through review workflows.',
+        image: '/images/QA 관리.jpg',
+      },
+      {
+        title: 'User Management',
+        description: 'Control members and permissions so teams can operate knowledge securely.',
+        image: '/images/사용자관리.jpg',
+      },
+    ],
+  },
+} as const;
+
 function detectInitialLanguage(): Language {
   if (typeof window === 'undefined') {
     return 'en';
@@ -336,13 +423,24 @@ function detectInitialLanguage(): Language {
 export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
   const [language, setLanguage] = useState<Language>(detectInitialLanguage);
+  const [activeScreenshot, setActiveScreenshot] = useState(0);
 
   const t = translations[language];
+  const showcase = screenshotShowcase[language];
+  const currentScreenshot = showcase.items[activeScreenshot];
 
   useEffect(() => {
     document.documentElement.lang = language;
     window.localStorage.setItem(languageStorageKey, language);
   }, [language]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveScreenshot((index) => (index + 1) % showcase.items.length);
+    }, 4000);
+
+    return () => window.clearInterval(timer);
+  }, [showcase.items.length]);
 
   const showComingSoon = () => setShowComingSoonModal(true);
 
@@ -459,6 +557,90 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
             >
               {t.hero.viewFeatures}
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Product Preview Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-4">
+              {showcase.eyebrow}
+            </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              {showcase.title}
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              {showcase.description}
+            </p>
+          </div>
+
+          <div className="relative">
+            <div className="max-w-[90%] mx-auto">
+            <div className="rounded-lg border border-gray-200 bg-gray-950 p-2 shadow-2xl">
+              <div className="flex items-center gap-1.5 px-3 py-2">
+                <span className="h-3 w-3 rounded-full bg-red-400" />
+                <span className="h-3 w-3 rounded-full bg-yellow-400" />
+                <span className="h-3 w-3 rounded-full bg-green-400" />
+              </div>
+              <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-gray-100">
+                {showcase.items.map((item, index) => (
+                  <img
+                    key={item.image}
+                    src={item.image}
+                    alt={item.title}
+                    className={`absolute inset-0 h-full w-full object-contain transition-all duration-700 ease-out ${
+                      index === activeScreenshot
+                        ? 'opacity-100 translate-x-0 scale-100'
+                        : 'opacity-0 translate-x-4 scale-[1.01]'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+            </div>
+
+            <div className="mt-6 text-center min-h-[76px]">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">{currentScreenshot.title}</h3>
+              <p className="text-gray-600 max-w-2xl mx-auto">{currentScreenshot.description}</p>
+            </div>
+
+            <div className="mt-8 overflow-x-auto pb-2" aria-label={showcase.eyebrow}>
+              <div className="flex gap-3 min-w-max px-1">
+                {showcase.items.map((item, index) => {
+                  const selected = index === activeScreenshot;
+
+                  return (
+                    <button
+                      key={item.title}
+                      type="button"
+                      onClick={() => setActiveScreenshot(index)}
+                      className={`w-40 flex-shrink-0 rounded-lg border p-1 text-left transition-all ${
+                        selected
+                          ? 'border-blue-500 bg-blue-50 shadow-md'
+                          : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                      }`}
+                      aria-current={selected}
+                    >
+                      <span className="block aspect-[16/10] overflow-hidden rounded-md bg-gray-100">
+                        <img
+                          src={item.image}
+                          alt=""
+                          className="h-full w-full object-contain"
+                          aria-hidden="true"
+                        />
+                      </span>
+                      <span className={`block truncate px-2 py-2 text-sm font-medium ${
+                        selected ? 'text-blue-700' : 'text-gray-700'
+                      }`}>
+                        {item.title}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </section>
