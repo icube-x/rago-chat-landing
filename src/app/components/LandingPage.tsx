@@ -420,7 +420,7 @@ function detectInitialLanguage(): Language {
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const languages = navigator.languages.length ? navigator.languages : [navigator.language];
-  const hasKoreanLocale = languages.some((locale) => locale.toLowerCase().startsWith('ko'));
+  const hasKoreanLocale = languages.some((locale) => locale.toLowerCase().indexOf('ko') === 0);
 
   return timezone === 'Asia/Seoul' || hasKoreanLocale ? 'ko' : 'en';
 }
