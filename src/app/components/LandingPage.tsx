@@ -81,6 +81,35 @@ const translations = {
         description: '조직의 다양한 서비스와 연동하여 새로운 비즈니스를 창출할 수 있습니다',
       },
     ],
+    otherUseCasesSection: {
+      title: '그밖의 활용사례',
+    },
+    otherUseCases: [
+      {
+        title: '연구활동/논문분석',
+        description: '논문 및 연구사례 조사',
+      },
+      {
+        title: '법률/규정/컴플라이언스',
+        description: '법률, 판례, 내부규정',
+      },
+      {
+        title: '의료/병원',
+        description: '의학지식, 논문 기반 질의응답',
+      },
+      {
+        title: '금융/투자',
+        description: '시장뉴스 QA, 애널리스트 자료 검색',
+      },
+      {
+        title: '제조/산업',
+        description: '설비 메뉴얼 검색, 장애대응, 부품 QA',
+      },
+      {
+        title: '기타',
+        description: '조직별 맞춤 지식 검색 및 QA',
+      },
+    ],
     pricingSection: {
       title: '합리적인 요금제',
       description: '팀의 규모에 맞는 플랜을 선택하세요',
@@ -92,7 +121,7 @@ const translations = {
         price: '무료',
         priceDetail: '14일 체험',
         description: '테스트용',
-        features: ['조직 1개', '관리자 1명', '문서 10개', '저장 공간 1GB', '월 질문 500회', '기본 기능'],
+        features: ['프로젝트 1개', '문서함(캐비닛) 1개', '문서 5개', '저장 공간 30MB', '질문 50회', '제한된 관리자 기능'],
         cta: '무료 체험 시작',
       },
       {
@@ -227,6 +256,35 @@ const translations = {
         description: "Connect with your organization's services and create new business workflows",
       },
     ],
+    otherUseCasesSection: {
+      title: 'Other Use Cases',
+    },
+    otherUseCases: [
+      {
+        title: 'Research / Paper Analysis',
+        description: 'Search papers and research cases',
+      },
+      {
+        title: 'Legal / Policy / Compliance',
+        description: 'Laws, precedents, and internal policies',
+      },
+      {
+        title: 'Healthcare / Hospitals',
+        description: 'Medical knowledge and paper-based Q&A',
+      },
+      {
+        title: 'Finance / Investment',
+        description: 'Market news Q&A and analyst report search',
+      },
+      {
+        title: 'Manufacturing / Industry',
+        description: 'Equipment manual search, issue response, and parts Q&A',
+      },
+      {
+        title: 'Other',
+        description: 'Custom knowledge search and Q&A workflows',
+      },
+    ],
     pricingSection: {
       title: 'Straightforward Pricing',
       description: 'Choose the plan that fits your team size',
@@ -238,7 +296,7 @@ const translations = {
         price: 'Free',
         priceDetail: '14-day trial',
         description: 'For testing',
-        features: ['1 organization', '1 admin', '10 documents', '1GB storage', '500 questions/month', 'Core features'],
+        features: ['1 project', '1 document cabinet', '5 documents', '30MB storage', '50 questions', 'Limited admin features'],
         cta: 'Start free trial',
       },
       {
@@ -719,6 +777,30 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
                 </div>
               );
             })}
+          </div>
+
+          <div className="mt-14">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+              {t.otherUseCasesSection.title}
+            </h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {t.otherUseCases.map((useCase) => (
+                <div
+                  key={useCase.title}
+                  className="bg-white p-5 rounded-lg border border-gray-200 flex items-start gap-3"
+                >
+                  <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="font-semibold text-gray-900">
+                      {useCase.title}
+                    </h4>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {useCase.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
