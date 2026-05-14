@@ -380,6 +380,11 @@ const screenshotShowcase = {
         image: '/screen_images_en/RAG Test.jpg',
       },
       {
+        title: 'AI RAG Chatting',
+        description: 'Ask questions in natural language and get grounded answers from connected documents.',
+        image: '/screen_images_en/AI RAG chatting.jpg',
+      },
+      {
         title: 'Project Management',
         description: 'Create projects and organize knowledge work by team or service.',
         image: '/screen_images_en/Projects.jpg',
