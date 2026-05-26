@@ -17,6 +17,7 @@ const translations = {
       pricing: '요금제',
       useCases: '활용 사례',
       docs: '문서',
+      faq: 'FAQ',
       login: '로그인',
       startFree: '무료로 시작하기',
       languageLabel: '언어 선택',
@@ -61,7 +62,7 @@ const translations = {
     ],
     useCasesSection: {
       title: '다양한 활용 사례',
-      description: 'KL-Store는 다양한 분야에서 활용됩니다',
+      description: 'RAGO-X는 다양한 분야에서 활용됩니다',
     },
     useCases: [
       {
@@ -192,6 +193,7 @@ const translations = {
       pricing: 'Pricing',
       useCases: 'Use cases',
       docs: 'Docs',
+      faq: 'FAQ',
       login: 'Log in',
       startFree: 'Start free',
       languageLabel: 'Select language',
@@ -377,7 +379,7 @@ const useCaseIcons = [MessageSquare, FileText, Brain, Code];
 const screenshotShowcase = {
   ko: {
     eyebrow: '서비스 미리보기',
-    title: '실제 화면으로 확인하는 KL-Store',
+    title: '실제 화면으로 확인하는 RAGO-X',
     description: '문서 업로드부터 RAG 실행, 답변 근거 확인, 운영 관리까지 핵심 흐름을 자동으로 살펴보세요.',
     items: [
       {
@@ -524,9 +526,12 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <div className="flex items-center gap-2">
-              <Database className="w-8 h-8 text-blue-600" />
-              <span className="text-xl font-semibold text-gray-900">KL-Store</span>
+            <div className="flex items-center">
+              <img
+                src="/rago-x-logo.png"
+                alt="RAGO-X"
+                className="h-10 w-auto"
+              />
             </div>
 
             {/* Nav Links */}
@@ -542,6 +547,9 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
               </a>
               <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
                 {t.nav.docs}
+              </a>
+              <a href="#faq" className="text-gray-600 hover:text-gray-900 transition-colors">
+                {t.nav.faq}
               </a>
             </div>
 
@@ -932,9 +940,12 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <Database className="w-6 h-6 text-blue-400" />
-                <span className="text-lg font-semibold text-white">KL-Store</span>
+              <div className="inline-flex items-center mb-4 rounded-md bg-white px-3 py-2">
+                <img
+                  src="/rago-x-logo.png"
+                  alt="RAGO-X"
+                  className="h-9 w-auto"
+                />
               </div>
               <p className="text-sm text-gray-400">
                 {t.footer.tagline}
@@ -973,7 +984,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
           </div>
 
           <div className="pt-8 border-t border-gray-800 text-sm text-center text-gray-400">
-            © 2024 KL-Store. All rights reserved.
+            © 2026 RAGO-X. All rights reserved.
           </div>
         </div>
       </footer>
