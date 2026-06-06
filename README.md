@@ -9,7 +9,7 @@ KL-Store 서비스의 랜딩 페이지입니다.
 - Tailwind CSS v4
 - Lucide Icons
 
-## 설치 및 실행
+## 설치 및 실행`
 
 ```bash
 # 의존성 설치
