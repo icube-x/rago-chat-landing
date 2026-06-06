@@ -317,7 +317,7 @@ export function DocumentManagement({ cabinetId, projectInfo: projectInfoProp, ca
     // 여기서는 브라우저의 기본 다운로드 기능을 시연합니다
     
     // Mock: 빈 파일 생성 (실제로는 서버에서 파일 데이터를 받아와야 함)
-    const mockContent = `KL-Store Admin - Document Download\n\n파일명: ${doc.fileName}\n문서 ID: ${doc.id}\n파일 타입: ${doc.fileType}\n크기: ${doc.size}\n업로드 일시: ${doc.createdAt}\n\n이것은 데모용 파일입니다.\n실제 환경에서는 서버에서 원본 파일을 다운로드합니다.`;
+    const mockContent = `RAGO-X Admin - Document Download\n\n파일명: ${doc.fileName}\n문서 ID: ${doc.id}\n파일 타입: ${doc.fileType}\n크기: ${doc.size}\n업로드 일시: ${doc.createdAt}\n\n이것은 데모용 파일입니다.\n실제 환경에서는 서버에서 원본 파일을 다운로드합니다.`;
     
     // Blob 생성
     const blob = new Blob([mockContent], { type: 'text/plain' });

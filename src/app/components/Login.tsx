@@ -121,7 +121,7 @@ export function Login({ onLogin, error, onNavigateToSignup, onNavigateToLanding 
           >
             <Database className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">KL-Store Admin</h1>
+          <h1 className="text-2xl font-bold text-gray-900">RAGO-X Admin</h1>
           <p className="text-gray-600 mt-2">관리자 대시보드에 로그인하세요</p>
         </div>
 

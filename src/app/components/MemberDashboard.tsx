@@ -243,7 +243,7 @@ export function MemberDashboard({ userEmail, onLogout }: MemberDashboardProps) {
           <div className="flex items-center gap-2">
             <Database className="w-7 h-7 text-blue-600" />
             <div className="flex-1">
-              <h1 className="font-semibold">KL-Store</h1>
+              <h1 className="font-semibold">RAGO-X</h1>
               <div className="flex items-center gap-2">
                 <p className="text-xs text-gray-500">{currentTenant?.name}</p>
                 {currentTenant?.plan === 'TRIAL' && currentTenant?.billing?.trialDaysRemaining && (

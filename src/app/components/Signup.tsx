@@ -84,7 +84,7 @@ export function Signup({ onSignupSuccess, onNavigateToLogin, onNavigateToLanding
             onClick={() => onNavigateToLanding && onNavigateToLanding()}
           >
             <Database className="w-10 h-10 text-blue-600" />
-            <h1 className="text-3xl font-semibold">KL-Store</h1>
+            <h1 className="text-3xl font-semibold">RAGO-X</h1>
           </div>
           <h2 className="text-xl font-semibold text-gray-900 mb-2">시작하기</h2>
           <p className="text-gray-600">RAG 기반 지식 관리 플랫폼</p>

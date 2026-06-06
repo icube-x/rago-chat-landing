@@ -207,7 +207,7 @@ const translations = {
       guides: '가이드',
       blog: '블로그',
       support: '지원',
-      about: '회사 소개',
+      about: '회사소개',
       careers: '채용',
       privacy: '개인정보처리방침',
       terms: '이용약관',
@@ -229,7 +229,7 @@ const translations = {
       titleLine1: 'Connect your knowledge',
       titleLine2: 'and find answers the',
       titleHighlight: 'smart way',
-      description: 'KL-Store searches every document and dataset in your organization with RAG, then delivers the information you need in natural language.',
+      description: 'RAGO-X searches every document and dataset in your organization with RAG, then delivers the information you need in natural language.',
       viewFeatures: 'View features',
     },
     featuresSection: {
@@ -264,7 +264,7 @@ const translations = {
     ],
     useCasesSection: {
       title: 'Built for Many Use Cases',
-      description: 'KL-Store helps teams work with knowledge across many domains',
+      description: 'RAGO-X helps teams work with knowledge across many domains',
     },
     useCases: [
       {
@@ -362,16 +362,16 @@ const translations = {
     ],
     faqSection: {
       title: 'Frequently Asked Questions',
-      description: 'Answers to common questions before adopting KL-Store',
+      description: 'Answers to common questions before adopting RAGO-X',
     },
     faqs: [
       {
-        question: 'What documents can KL-Store search?',
+        question: 'What documents can RAGO-X search?',
         answer: 'Teams can upload common document formats such as PDF, HWP, DOCX, and TXT, then turn them into a searchable knowledge base.',
       },
       {
         question: 'Can I inspect the evidence behind an answer?',
-        answer: 'Yes. KL-Store shows the source text and chunks used to generate an AI answer, which helps teams review quality and trust the result.',
+        answer: 'Yes. RAGO-X shows the source text and chunks used to generate an AI answer, which helps teams review quality and trust the result.',
       },
       {
         question: 'Can permissions be managed by team?',
@@ -379,7 +379,7 @@ const translations = {
       },
       {
         question: 'Can it integrate with existing services?',
-        answer: 'API access lets you connect KL-Store with internal systems, work tools, support channels, and custom workflows.',
+        answer: 'API access lets you connect RAGO-X with internal systems, work tools, support channels, and custom workflows.',
       },
       {
         question: 'Is there a free trial?',
@@ -387,7 +387,7 @@ const translations = {
       },
     ],
     cta: {
-      title: 'Start using KL-Store today',
+      title: 'Start using RAGO-X today',
       description: 'Start free without a credit card',
     },
     modal: {
@@ -473,7 +473,7 @@ const screenshotShowcase = {
   },
   en: {
     eyebrow: 'Product Preview',
-    title: 'See KL-Store in Real Screens',
+    title: 'See RAGO-X in Real Screens',
     description: 'Walk through the core flow from document upload to RAG testing, answer evidence, and admin operations.',
     items: [
       {
@@ -1023,7 +1023,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
+          <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between mb-8">
             <div>
               <div className="inline-flex items-center mb-4 rounded-md bg-white px-3 py-2">
                 <img
@@ -1037,35 +1037,14 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
               </p>
             </div>
 
-            <div>
-              <h4 className="font-semibold text-white mb-3">{t.footer.product}</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#features" className="hover:text-white transition-colors">{t.footer.features}</a></li>
-                <li><a href="#pricing" className="hover:text-white transition-colors">{t.footer.pricing}</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">API</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">{t.footer.integrations}</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-white mb-3">{t.footer.resources}</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">{t.footer.docs}</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">{t.footer.guides}</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">{t.footer.blog}</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">{t.footer.support}</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-white mb-3">{t.footer.company}</h4>
-              <ul className="space-y-2 text-sm">
+            <nav aria-label={t.footer.company}>
+              <ul className="flex flex-wrap gap-x-6 gap-y-3 text-sm md:justify-end">
                 <li><a href="#" className="hover:text-white transition-colors">{t.footer.about}</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">{t.footer.careers}</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">{t.footer.privacy}</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">{t.footer.terms}</a></li>
+                <li><a href={language === 'ko' ? '/terms.html' : '/terms-en.html'} className="hover:text-white transition-colors">{t.footer.terms}</a></li>
               </ul>
-            </div>
+            </nav>
           </div>
 
           <div className="pt-8 border-t border-gray-800 text-sm text-center text-gray-400">

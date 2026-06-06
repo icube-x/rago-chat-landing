@@ -115,7 +115,7 @@ export function InviteAccept({ inviteCode, onAcceptAsNewUser, onAcceptAsExisting
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
               <Database className="w-10 h-10 text-blue-600" />
-              <h1 className="text-3xl font-semibold">KL-Store</h1>
+              <h1 className="text-3xl font-semibold">RAGO-X</h1>
             </div>
           </div>
 
@@ -167,7 +167,7 @@ export function InviteAccept({ inviteCode, onAcceptAsNewUser, onAcceptAsExisting
             {/* Account Question */}
             <div className="space-y-3">
               <p className="text-sm font-medium text-gray-700 text-center mb-3">
-                KL-Store 계정이 있으신가요?
+                RAGO-X 계정이 있으신가요?
               </p>
 
               <button
@@ -207,7 +207,7 @@ export function InviteAccept({ inviteCode, onAcceptAsNewUser, onAcceptAsExisting
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Database className="w-10 h-10 text-blue-600" />
-            <h1 className="text-3xl font-semibold">KL-Store</h1>
+            <h1 className="text-3xl font-semibold">RAGO-X</h1>
           </div>
         </div>
 

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "mysql-agent": {
+      "command": "/Users/simon/git/mysql_mcp_agent/.venv/bin/python",
+      "args": [
+        "/Users/simon/git/mysql_mcp_agent/mysql_agent.py"
+      ]
+    }
+  }
+}
