@@ -41,7 +41,7 @@ const translations = {
       },
       {
         title: '문서 관리',
-        description: '문서를 업로드하고 지식기반을 구축합니다',
+        description: '문서형식의 PDF 문서를 업로드해 지식베이스로 만들고 자연어로 검색할 수 있습니다. 현재 PDF, TXT, DOCX 형식의 문서를 지원합니다. 그밖의 다양한 문서형식은 추후 지원예정입니다.',
       },
       {
         title: '자연어 대화',
