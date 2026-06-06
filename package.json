@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "deploy": "scripts/deploy.sh",
     "deploy:s3": "scripts/deploy-s3.sh",
     "preview": "vite preview"
   },
