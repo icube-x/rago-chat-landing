@@ -17,7 +17,7 @@ const translations = {
       pricing: '요금제',
       useCases: '활용 사례',
       docs: '문서',
-      faq: 'FAQ',
+      faq: '자주묻는 질문',
       login: '로그인',
       startFree: '무료로 시작하기',
       languageLabel: '언어 선택',
@@ -156,6 +156,32 @@ const translations = {
         description: '대기업/보안',
         features: ['전용 인프라', 'SSO/SAML', '전용 Qdrant', 'SLA 보장', '온프레미스 옵션', '프라이빗 클라우드', '맞춤 개발', '24/7 전담 지원'],
         cta: '견적 문의',
+      },
+    ],
+    faqSection: {
+      title: '자주묻는 질문',
+      description: 'RAGO-X 도입 전에 많이 궁금해하는 내용을 정리했습니다',
+    },
+    faqs: [
+      {
+        question: 'RAGO-X는 어떤 문서를 검색할 수 있나요?',
+        answer: '문서형식의 PDF 문서를 업로드해 지식베이스로 만들고 자연어로 검색할 수 있습니다. 현재 PDF, TXT, DOCX 형식의 문서를 지원합니다. 그밖의 다양한 문서형식은 추후 지원예정입니다.',
+      },
+      {
+        question: '답변의 근거를 확인할 수 있나요?',
+        answer: '네. AI가 생성한 답변이 어떤 원문과 청크를 기반으로 했는지 함께 확인할 수 있어 검토와 품질 관리가 쉽습니다.',
+      },
+      {
+        question: '팀별로 권한을 나눠 관리할 수 있나요?',
+        answer: '조직, 프로젝트, 캐비닛 단위로 사용자와 권한을 관리할 수 있어 부서별 지식 운영에 적합합니다.',
+      },
+      {
+        question: '기존 서비스와 연동할 수 있나요?',
+        answer: 'API 액세스를 통해 내부 시스템, 업무 도구, 고객 지원 채널 등과 연동하는 워크플로우를 구성할 수 있습니다.',
+      },
+      {
+        question: '무료로 체험할 수 있나요?',
+        answer: 'Trial 플랜으로 신용카드 없이 14일 동안 주요 기능을 테스트할 수 있습니다.',
       },
     ],
     cta: {
@@ -332,6 +358,32 @@ const translations = {
         description: 'Enterprise and security',
         features: ['Dedicated infrastructure', 'SSO/SAML', 'Dedicated Qdrant', 'SLA guarantee', 'On-premise option', 'Private cloud', 'Custom development', '24/7 dedicated support'],
         cta: 'Contact sales',
+      },
+    ],
+    faqSection: {
+      title: 'Frequently Asked Questions',
+      description: 'Answers to common questions before adopting KL-Store',
+    },
+    faqs: [
+      {
+        question: 'What documents can KL-Store search?',
+        answer: 'Teams can upload common document formats such as PDF, HWP, DOCX, and TXT, then turn them into a searchable knowledge base.',
+      },
+      {
+        question: 'Can I inspect the evidence behind an answer?',
+        answer: 'Yes. KL-Store shows the source text and chunks used to generate an AI answer, which helps teams review quality and trust the result.',
+      },
+      {
+        question: 'Can permissions be managed by team?',
+        answer: 'You can manage users and permissions by organization, project, and cabinet, making it suitable for department-level knowledge operations.',
+      },
+      {
+        question: 'Can it integrate with existing services?',
+        answer: 'API access lets you connect KL-Store with internal systems, work tools, support channels, and custom workflows.',
+      },
+      {
+        question: 'Is there a free trial?',
+        answer: 'The Trial plan lets you test the main features for 14 days without a credit card.',
       },
     ],
     cta: {
@@ -881,6 +933,39 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              {t.faqSection.title}
+            </h2>
+            <p className="text-xl text-gray-600">
+              {t.faqSection.description}
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {t.faqs.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-lg border border-gray-200 bg-white p-6"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left">
+                  <span className="text-lg font-semibold text-gray-900">
+                    {faq.question}
+                  </span>
+                  <ChevronRight className="h-5 w-5 flex-shrink-0 text-gray-500 transition-transform group-open:rotate-90" />
+                </summary>
+                <p className="mt-4 text-gray-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
           </div>
         </div>
       </section>
