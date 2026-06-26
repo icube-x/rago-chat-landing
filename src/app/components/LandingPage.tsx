@@ -211,6 +211,15 @@ const translations = {
       careers: '채용',
       privacy: '개인정보처리방침',
       terms: '이용약관',
+      businessInfo: {
+        companyService: '회사명: 아이큐브엑스 | 서비스명: RAGO-X',
+        ceo: '대표자: 이상원',
+        address: '사업장 주소: 서울 영등포구 여의도동',
+        businessNumber: '사업자등록번호: 282-48-01199',
+        mailOrderNumber: '통신판매업 신고번호: 신고 전',
+        contact: '고객센터: support@icube-x.com',
+        privacyOfficer: '개인정보 보호책임자: 이상원',
+      },
     },
   },
   en: {
@@ -413,6 +422,15 @@ const translations = {
       careers: 'Careers',
       privacy: 'Privacy policy',
       terms: 'Terms of service',
+      businessInfo: {
+        companyService: 'Company: icube-x | Service: RAGO-X',
+        ceo: 'Representative: Sangwon Lee',
+        address: 'Address: Yeouido-dong, Yeongdeungpo-gu, Seoul, Korea',
+        businessNumber: 'Business registration no.: 282-48-01199',
+        mailOrderNumber: 'Mail-order business registration: Not yet registered',
+        contact: 'Support: support@icube-x.com',
+        privacyOfficer: 'Privacy officer: Sangwon Lee',
+      },
     },
   },
 } as const;
@@ -1047,8 +1065,16 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
             </nav>
           </div>
 
-          <div className="pt-8 border-t border-gray-800 text-sm text-center text-gray-400">
-            © 2026 RAGO-X. All rights reserved.
+          <div className="border-t border-gray-800 pt-8">
+            <div className="mb-6 grid gap-2 text-xs leading-6 text-gray-400 sm:grid-cols-2 lg:grid-cols-3">
+              {Object.values(t.footer.businessInfo).map((item) => (
+                <p key={item}>{item}</p>
+              ))}
+            </div>
+
+            <div className="text-center text-sm text-gray-400">
+              © 2026 icube-x / RAGO-X. All rights reserved.
+            </div>
           </div>
         </div>
       </footer>
