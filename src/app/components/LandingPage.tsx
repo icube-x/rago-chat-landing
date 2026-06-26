@@ -214,7 +214,7 @@ const translations = {
       businessInfo: {
         companyService: '회사명: 아이큐브엑스 | 서비스명: RAGO-X',
         ceo: '대표자: 이상원',
-        address: '사업장 주소: 서울 영등포구 여의도동',
+        address: '사업장 주소: 서울시 서초구 사임당로8길13, 4층 402-740A호',
         businessNumber: '사업자등록번호: 282-48-01199',
         mailOrderNumber: '통신판매업 신고번호: 신고 전',
         contact: '고객센터: support@icube-x.com',
@@ -425,7 +425,7 @@ const translations = {
       businessInfo: {
         companyService: 'Company: icube-x | Service: RAGO-X',
         ceo: 'Representative: Sangwon Lee',
-        address: 'Address: Yeouido-dong, Yeongdeungpo-gu, Seoul, Korea',
+        address: 'Address: 4F 402-740A, 13 Saimdang-ro 8-gil, Seocho-gu, Seoul, Korea',
         businessNumber: 'Business registration no.: 282-48-01199',
         mailOrderNumber: 'Mail-order business registration: Not yet registered',
         contact: 'Support: support@icube-x.com',
