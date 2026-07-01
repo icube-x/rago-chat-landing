@@ -20,6 +20,13 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/main.tsx", "src/app/App.tsx", "src/app/components/LandingPage.tsx"],
+  "include": [
+    "src/main.tsx",
+    "src/vite-env.d.ts",
+    "src/app/App.tsx",
+    "src/app/components/LandingPage.tsx",
+    "src/app/components/PolicyPage.tsx",
+    "src/app/policies/**/*.ts"
+  ],
   "references": []
 }

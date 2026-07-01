@@ -49,17 +49,48 @@ pnpm build
 if [[ "$upload_mode" == "copy" ]]; then
   run_aws s3 cp dist "$target" \
     --recursive \
-    --exclude "index.html" \
+    --exclude "*.html" \
     --cache-control "public,max-age=31536000,immutable"
 else
   run_aws s3 sync dist "$target" \
     --delete \
-    --exclude "index.html" \
+    --exclude "*.html" \
     --cache-control "public,max-age=31536000,immutable"
 fi
+
+run_aws s3 cp dist "$target" \
+  --recursive \
+  --exclude "*" \
+  --include "*.html" \
+  --cache-control "no-cache,no-store,must-revalidate" \
+  --content-type "text/html; charset=utf-8"
 
 run_aws s3 cp dist/index.html "$target/index.html" \
   --cache-control "no-cache,no-store,must-revalidate" \
   --content-type "text/html; charset=utf-8"
+
+run_aws s3 cp dist/index.html "$target/terms" \
+  --cache-control "no-cache,no-store,must-revalidate" \
+  --content-type "text/html; charset=utf-8"
+
+run_aws s3 cp dist/index.html "$target/privacy" \
+  --cache-control "no-cache,no-store,must-revalidate" \
+  --content-type "text/html; charset=utf-8"
+
+legacy_routes=(
+  "terms.html"
+  "terms-en.html"
+  "privacy.html"
+  "policy-terms.html"
+  "policy-terms-v2.html"
+  "policy-privacy.html"
+  "policy-privacy-v2.html"
+)
+
+for route in "${legacy_routes[@]}"; do
+  run_aws s3 cp dist/index.html "$target/$route" \
+    --cache-control "no-cache,no-store,must-revalidate" \
+    --content-type "text/html; charset=utf-8"
+done
 
 echo "Deployed dist to ${target}"

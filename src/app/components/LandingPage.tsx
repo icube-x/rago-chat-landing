@@ -210,7 +210,7 @@ const translations = {
       about: '회사소개',
       careers: '채용',
       privacy: '개인정보처리방침',
-      terms: '이용약관',
+      terms: '서비스 이용약관',
       businessInfo: {
         companyService: '회사명: 아이큐브엑스 | 서비스명: RAGO-X',
         ceo: '대표자: 이상원',
@@ -1059,8 +1059,8 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
               <ul className="flex flex-wrap gap-x-6 gap-y-3 text-sm md:justify-end">
                 <li><a href="#" className="hover:text-white transition-colors">{t.footer.about}</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">{t.footer.careers}</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">{t.footer.privacy}</a></li>
-                <li><a href={language === 'ko' ? '/terms.html' : '/terms-en.html'} className="hover:text-white transition-colors">{t.footer.terms}</a></li>
+                <li><a href="/privacy" className="hover:text-white transition-colors">{t.footer.privacy}</a></li>
+                <li><a href="/terms" className="hover:text-white transition-colors">{t.footer.terms}</a></li>
               </ul>
             </nav>
           </div>

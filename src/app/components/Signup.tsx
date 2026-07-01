@@ -48,7 +48,7 @@ export function Signup({ onSignupSuccess, onNavigateToLogin, onNavigateToLanding
     }
 
     if (!agreedToTerms) {
-      setError('이용약관 및 개인정보처리방침에 동의해주세요.');
+      setError('서비스 이용약관 및 개인정보처리방침에 동의해주세요.');
       return;
     }
 
@@ -179,8 +179,8 @@ export function Signup({ onSignupSuccess, onNavigateToLogin, onNavigateToLanding
                 className="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
               />
               <label htmlFor="terms" className="text-sm text-gray-600">
-                <a href="#" className="text-blue-600 hover:underline">이용약관</a> 및{' '}
-                <a href="#" className="text-blue-600 hover:underline">개인정보처리방침</a>에 동의합니다.
+                <a href="/terms" className="text-blue-600 hover:underline">서비스 이용약관</a> 및{' '}
+                <a href="/privacy" className="text-blue-600 hover:underline">개인정보처리방침</a>에 동의합니다.
               </label>
             </div>
 
