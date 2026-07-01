@@ -9,7 +9,7 @@
 
 .policy-content h2 {
   color: #111827;
-  font-size: 23px;
+  font-size: 21px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1.35;
@@ -19,14 +19,14 @@
 
 .policy-content h3 {
   color: #111827;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1.45;
   margin: 34px 0 14px;
 }
 
 .policy-content p {
-  font-size: 16px;
+  font-size: 15px;
   margin: 0 0 18px;
 }
 
@@ -36,21 +36,29 @@
   padding-left: 1.2rem;
 }
 
+.policy-content ul {
+  list-style-type: disc;
+}
+
+.policy-content ol {
+  list-style-type: decimal;
+}
+
 .policy-content li {
-  font-size: 16px;
+  font-size: 15px;
   margin: 10px 0;
 }
 
 @media (min-width: 768px) {
   .policy-content h2 {
-    font-size: 26px;
+    font-size: 23px;
   }
 
   .policy-content p {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .policy-content li {
-    font-size: 17px;
+    font-size: 16px;
   }
 }

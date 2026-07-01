@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { fetchPolicy, getFallbackPolicy } from '@/app/policies/policyApi';
-import type { PolicyDocument, PolicySlug } from '@/app/policies/policyContent';
+import { fetchPolicy } from '@/app/policies/policyApi';
+import type { PolicyDocument, PolicySlug } from '@/app/policies/policyTypes';
 
 interface PolicyPageProps {
   slug: PolicySlug;
@@ -13,15 +13,15 @@ const policyNavItems: Array<{ slug: PolicySlug; label: string; href: string }> =
 ];
 
 export function PolicyPage({ slug }: PolicyPageProps) {
-  const [policy, setPolicy] = useState<PolicyDocument>(() => getFallbackPolicy(slug));
-  const [status, setStatus] = useState<'loading' | 'ready' | 'fallback'>('loading');
-  const [activeId, setActiveId] = useState(policy.toc[0]?.id ?? '');
+  const [policy, setPolicy] = useState<PolicyDocument | null>(null);
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [activeId, setActiveId] = useState('');
 
-  const sectionIds = useMemo(() => policy.toc.map((item) => item.id), [policy.toc]);
+  const sectionIds = useMemo(() => policy?.toc.map((item) => item.id) ?? [], [policy?.toc]);
 
   useEffect(() => {
     let isMounted = true;
-    setPolicy(getFallbackPolicy(slug));
+    setPolicy(null);
     setStatus('loading');
 
     fetchPolicy(slug)
@@ -32,8 +32,8 @@ export function PolicyPage({ slug }: PolicyPageProps) {
       })
       .catch(() => {
         if (!isMounted) return;
-        setPolicy(getFallbackPolicy(slug));
-        setStatus('fallback');
+        setPolicy(null);
+        setStatus('error');
       });
 
     return () => {
@@ -42,9 +42,11 @@ export function PolicyPage({ slug }: PolicyPageProps) {
   }, [slug]);
 
   useEffect(() => {
+    if (!policy) return;
+
     document.title = `${policy.title} | RAGO-X`;
     setActiveId(policy.toc[0]?.id ?? '');
-  }, [policy.title, policy.toc]);
+  }, [policy]);
 
   useEffect(() => {
     const sections = sectionIds
@@ -98,31 +100,35 @@ export function PolicyPage({ slug }: PolicyPageProps) {
           <a href="/" className="mb-5 inline-flex text-sm font-bold text-[#8a94a6]">
             RAGO-X로 돌아가기
           </a>
-          <h1 className="mb-3 text-[30px] font-bold leading-tight text-[#111827] md:text-[40px]">
-            {policy.title}
-          </h1>
-          <p className="mb-12 text-base font-bold text-[#8a94a6] md:mb-[76px] md:text-[19px]">
-            {policy.effectiveDate}
-          </p>
+          {policy ? (
+            <>
+              <h1 className="mb-3 text-[26px] font-bold leading-tight text-[#111827] md:text-[34px]">
+                {policy.title}
+              </h1>
+              <div className="mb-12 flex flex-wrap gap-x-5 gap-y-2 text-sm font-normal text-[#8a94a6] md:mb-[76px] md:text-base">
+                <div>{policy.effectiveDate}</div>
+                <div>{policy.updatedAt}</div>
+                <div>{policy.version}</div>
+              </div>
+            </>
+          ) : null}
           {status === 'loading' ? (
-            <p className="-mt-8 mb-8 text-sm font-bold text-[#8a94a6]">최신 정책을 불러오는 중입니다.</p>
+            <p className="mb-8 text-sm font-bold text-[#8a94a6]">정책을 불러오는 중입니다.</p>
           ) : null}
-          {status === 'fallback' ? (
-            <p className="-mt-8 mb-8 text-sm font-bold text-[#8a94a6]">
-              최신 정책을 불러오지 못해 기본 게시본을 표시합니다.
-            </p>
+          {status === 'error' ? (
+            <p className="mb-8 text-sm font-bold text-[#8a94a6]">정책을 불러오지 못했습니다.</p>
           ) : null}
-          <div className="policy-content" dangerouslySetInnerHTML={{ __html: policy.contentHtml }} />
+          {policy ? <div className="policy-content" dangerouslySetInnerHTML={{ __html: policy.contentHtml }} /> : null}
         </main>
 
         <aside className="sticky top-0 hidden h-screen bg-white px-7 py-[68px] xl:block" aria-label="목차">
           <p className="mb-4 text-sm font-bold text-[#8a94a6]">목차</p>
           <nav>
-            {policy.toc.map((item) => (
+            {policy?.toc.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className={`mb-3.5 block text-[15px] font-bold transition-colors ${
+                className={`mb-3.5 block text-sm font-bold transition-colors ${
                   activeId === item.id ? 'text-[#059669]' : 'text-[#4b5563] hover:text-[#111827]'
                 }`}
               >
