@@ -4,11 +4,11 @@ import { PolicyPage } from '@/app/components/PolicyPage';
 function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
 
-  if (path === '/terms' || path === '/terms.html' || path === '/terms-en.html' || path.startsWith('/policy-terms')) {
+  if (path === '/terms' || path.startsWith('/policy-terms')) {
     return <PolicyPage slug="terms" />;
   }
 
-  if (path === '/privacy' || path === '/privacy.html' || path.startsWith('/policy-privacy')) {
+  if (path === '/privacy' || path.startsWith('/policy-privacy')) {
     return <PolicyPage slug="privacy" />;
   }
 

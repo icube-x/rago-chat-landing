@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Database, Zap, Shield, Users, ArrowRight, Check, MessageSquare, FileText, Brain, Star, ChevronRight, Code, X, Languages } from 'lucide-react';
 
-type Language = 'ko' | 'en';
-
-const languageStorageKey = 'kl-store-language';
+import { detectInitialLanguage, getPolicyPath, languageStorageKey } from '@/app/language';
+import type { Language } from '@/app/language';
 
 interface LandingPageProps {
   onGetStarted: () => void;
@@ -538,23 +537,6 @@ const screenshotShowcase = {
   },
 } as const;
 
-function detectInitialLanguage(): Language {
-  if (typeof window === 'undefined') {
-    return 'en';
-  }
-
-  const savedLanguage = window.localStorage.getItem(languageStorageKey);
-  if (savedLanguage === 'ko' || savedLanguage === 'en') {
-    return savedLanguage;
-  }
-
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const languages = navigator.languages.length ? navigator.languages : [navigator.language];
-  const hasKoreanLocale = languages.some((locale) => locale.toLowerCase().indexOf('ko') === 0);
-
-  return timezone === 'Asia/Seoul' || hasKoreanLocale ? 'ko' : 'en';
-}
-
 export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
   const [language, setLanguage] = useState<Language>(detectInitialLanguage);
@@ -1059,8 +1041,8 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
               <ul className="flex flex-wrap gap-x-6 gap-y-3 text-sm md:justify-end">
                 <li><a href="#" className="hover:text-white transition-colors">{t.footer.about}</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">{t.footer.careers}</a></li>
-                <li><a href="/privacy" className="hover:text-white transition-colors">{t.footer.privacy}</a></li>
-                <li><a href="/terms" className="hover:text-white transition-colors">{t.footer.terms}</a></li>
+                <li><a href={getPolicyPath('privacy', language)} className="hover:text-white transition-colors">{t.footer.privacy}</a></li>
+                <li><a href={getPolicyPath('terms', language)} className="hover:text-white transition-colors">{t.footer.terms}</a></li>
               </ul>
             </nav>
           </div>

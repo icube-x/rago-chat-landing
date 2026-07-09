@@ -77,10 +77,17 @@ run_aws s3 cp dist/index.html "$target/privacy" \
   --cache-control "no-cache,no-store,must-revalidate" \
   --content-type "text/html; charset=utf-8"
 
-legacy_routes=(
+removed_routes=(
   "terms.html"
   "terms-en.html"
   "privacy.html"
+)
+
+for route in "${removed_routes[@]}"; do
+  run_aws s3 rm "$target/$route"
+done
+
+legacy_routes=(
   "policy-terms.html"
   "policy-terms-v2.html"
   "policy-privacy.html"

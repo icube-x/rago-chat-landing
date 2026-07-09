@@ -1,11 +1,12 @@
 import type { PolicyDocument, PolicySlug, PolicyTocItem } from '@/app/policies/policyTypes';
+import type { PolicyLanguageCode } from '@/app/language';
 
 const policyCodes: Record<PolicySlug, string> = {
   terms: 'TERMS_OF_SERVICE',
   privacy: 'PRIVACY_POLICY',
 };
 
-const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000').replace(/\/+$/, '');
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL ?? 'https://api.rago-x.chat').replace(/\/+$/, '');
 
 type PolicyApiResponse = Record<string, unknown>;
 
@@ -19,7 +20,7 @@ interface PolicyPayload {
   updatedAt: string;
 }
 
-export async function fetchPolicy(slug: PolicySlug, languageCode = 'ko-KR'): Promise<PolicyDocument> {
+export async function fetchPolicy(slug: PolicySlug, languageCode: PolicyLanguageCode = 'ko-KR'): Promise<PolicyDocument> {
   const url = new URL('/api/v2/policies', apiBaseUrl);
   url.searchParams.set('code', policyCodes[slug]);
   url.searchParams.set('language_code', languageCode);
@@ -35,7 +36,7 @@ export async function fetchPolicy(slug: PolicySlug, languageCode = 'ko-KR'): Pro
   }
 
   const payload = unwrapPolicyPayload((await response.json()) as PolicyApiResponse);
-  return normalizePolicy(slug, payload);
+  return normalizePolicy(slug, payload, languageCode);
 }
 
 function unwrapPolicyPayload(payload: PolicyApiResponse): PolicyApiResponse {
@@ -43,19 +44,36 @@ function unwrapPolicyPayload(payload: PolicyApiResponse): PolicyApiResponse {
   return isRecord(nested) ? nested : payload;
 }
 
-function normalizePolicy(slug: PolicySlug, payload: PolicyApiResponse): PolicyDocument {
+function normalizePolicy(slug: PolicySlug, payload: PolicyApiResponse, languageCode: PolicyLanguageCode): PolicyDocument {
   const policyPayload = readPolicyPayload(payload);
   const contentHtml = buildContentHtml(policyPayload.content, policyPayload.contentFormat);
   const toc = buildToc(contentHtml);
+  const labels = getPolicyMetaLabels(languageCode);
 
   return {
     slug,
     title: policyPayload.title,
-    effectiveDate: formatPolicyMeta('시행일자', policyPayload.effectiveDate),
-    updatedAt: formatPolicyMeta('개정일자', policyPayload.updatedAt),
-    version: formatPolicyMeta('버전', policyPayload.version),
+    effectiveDate: formatPolicyMeta(labels.effectiveDate, policyPayload.effectiveDate),
+    updatedAt: formatPolicyMeta(labels.updatedAt, policyPayload.updatedAt),
+    version: formatPolicyMeta(labels.version, policyPayload.version),
     contentHtml,
     toc,
+  };
+}
+
+function getPolicyMetaLabels(languageCode: PolicyLanguageCode): Record<'effectiveDate' | 'updatedAt' | 'version', string> {
+  if (languageCode === 'en-US') {
+    return {
+      effectiveDate: 'Effective date',
+      updatedAt: 'Updated',
+      version: 'Version',
+    };
+  }
+
+  return {
+    effectiveDate: '시행일자',
+    updatedAt: '개정일자',
+    version: '버전',
   };
 }
 
@@ -110,11 +128,12 @@ function sanitizeHtml(html: string): string {
 }
 
 function markdownToHtml(markdown: string): string {
-  const lines = markdown.replace(/\r\n/g, '\n').split('\n');
+  const lines = markdown.replace(/\\n/g, '\n').replace(/\r\n/g, '\n').split('\n');
   const parts: string[] = [];
   let listItems: string[] = [];
   let listTag: 'ol' | 'ul' = 'ol';
   let paragraph: string[] = [];
+  let shouldContinuePlainTextList = false;
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
@@ -135,6 +154,15 @@ function markdownToHtml(markdown: string): string {
     if (!trimmed) {
       flushParagraph();
       flushList();
+      shouldContinuePlainTextList = false;
+      continue;
+    }
+
+    if (isHorizontalRule(trimmed)) {
+      flushParagraph();
+      flushList();
+      shouldContinuePlainTextList = false;
+      parts.push('<hr />');
       continue;
     }
 
@@ -142,8 +170,18 @@ function markdownToHtml(markdown: string): string {
     if (heading) {
       flushParagraph();
       flushList();
+      shouldContinuePlainTextList = false;
       const level = Math.min(heading[1].length, 3);
       parts.push(`<h${level}>${escapeHtml(heading[2])}</h${level}>`);
+      continue;
+    }
+
+    const articleHeading = trimmed.match(/^(Article\s+\d+[.)]?\s+.+)$/i);
+    if (articleHeading) {
+      flushParagraph();
+      flushList();
+      shouldContinuePlainTextList = false;
+      parts.push(`<h2>${escapeHtml(articleHeading[1])}</h2>`);
       continue;
     }
 
@@ -155,6 +193,7 @@ function markdownToHtml(markdown: string): string {
       }
       listTag = 'ol';
       listItems.push(escapeHtml(ordered[1]));
+      shouldContinuePlainTextList = false;
       continue;
     }
 
@@ -166,9 +205,23 @@ function markdownToHtml(markdown: string): string {
       }
       listTag = 'ul';
       listItems.push(escapeHtml(unordered[1]));
+      shouldContinuePlainTextList = false;
       continue;
     }
 
+    if (isPlainTextListItem(trimmed, listItems, listTag, shouldContinuePlainTextList)) {
+      flushParagraph();
+      if (listItems.length && listTag !== 'ul') {
+        flushList();
+      }
+      listTag = 'ul';
+      listItems.push(escapeHtml(trimmed));
+      shouldContinuePlainTextList = expectsPlainTextListContinuation(trimmed);
+      continue;
+    }
+
+    flushList();
+    shouldContinuePlainTextList = false;
     paragraph.push(trimmed);
   }
 
@@ -176,6 +229,35 @@ function markdownToHtml(markdown: string): string {
   flushList();
 
   return parts.join('\n');
+}
+
+function isHorizontalRule(line: string): boolean {
+  return /^[-*_⸻]{3,}$/.test(line);
+}
+
+function isPlainTextListItem(
+  line: string,
+  listItems: string[],
+  listTag: 'ol' | 'ul',
+  shouldContinuePlainTextList: boolean,
+): boolean {
+  if (/^["“][^"”]+["”]\s+means\b/i.test(line)) {
+    return true;
+  }
+
+  if (line.endsWith(';') || /;\s*(and|or)$/i.test(line)) {
+    return true;
+  }
+
+  if (listTag === 'ul' && listItems.length && shouldContinuePlainTextList) {
+    return true;
+  }
+
+  return false;
+}
+
+function expectsPlainTextListContinuation(line: string): boolean {
+  return /(?:;\s*(?:and|or)?|\b(?:and|or))$/i.test(line);
 }
 
 function ensureSections(html: string): string {

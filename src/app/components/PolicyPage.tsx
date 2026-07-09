@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { detectInitialLanguage, getPolicyLanguageCode, getPolicyPath } from '@/app/language';
 import { fetchPolicy } from '@/app/policies/policyApi';
 import type { PolicyDocument, PolicySlug } from '@/app/policies/policyTypes';
 
@@ -7,12 +8,37 @@ interface PolicyPageProps {
   slug: PolicySlug;
 }
 
-const policyNavItems: Array<{ slug: PolicySlug; label: string; href: string }> = [
-  { slug: 'privacy', label: '개인정보처리방침', href: '/privacy' },
-  { slug: 'terms', label: '서비스 이용약관', href: '/terms' },
-];
+const policyTranslations = {
+  ko: {
+    sectionLabel: '약관·정책',
+    navLabel: '약관 및 정책',
+    tocLabel: '목차',
+    backLabel: 'RAGO-X로 돌아가기',
+    loading: '정책을 불러오는 중입니다.',
+    error: '정책을 불러오지 못했습니다.',
+    policies: {
+      privacy: '개인정보처리방침',
+      terms: '서비스 이용약관',
+    },
+  },
+  en: {
+    sectionLabel: 'Terms & Policies',
+    navLabel: 'Terms and policies',
+    tocLabel: 'Contents',
+    backLabel: 'Back to RAGO-X',
+    loading: 'Loading policy.',
+    error: 'Unable to load policy.',
+    policies: {
+      privacy: 'Privacy policy',
+      terms: 'Terms of service',
+    },
+  },
+} as const;
 
 export function PolicyPage({ slug }: PolicyPageProps) {
+  const language = useMemo(() => detectInitialLanguage(), []);
+  const languageCode = getPolicyLanguageCode(language);
+  const t = policyTranslations[language];
   const [policy, setPolicy] = useState<PolicyDocument | null>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [activeId, setActiveId] = useState('');
@@ -24,7 +50,7 @@ export function PolicyPage({ slug }: PolicyPageProps) {
     setPolicy(null);
     setStatus('loading');
 
-    fetchPolicy(slug)
+    fetchPolicy(slug, languageCode)
       .then((nextPolicy) => {
         if (!isMounted) return;
         setPolicy(nextPolicy);
@@ -39,7 +65,7 @@ export function PolicyPage({ slug }: PolicyPageProps) {
     return () => {
       isMounted = false;
     };
-  }, [slug]);
+  }, [languageCode, slug]);
 
   useEffect(() => {
     if (!policy) return;
@@ -80,17 +106,17 @@ export function PolicyPage({ slug }: PolicyPageProps) {
     <div className="min-h-screen bg-white text-[#1f2933]">
       <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[312px_minmax(0,1fr)_320px]">
         <aside className="border-b border-[#e5e7eb] bg-white px-4 py-5 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r lg:px-4 lg:py-10">
-          <p className="mb-4 text-sm font-bold text-[#8a94a6]">약관·정책</p>
-          <nav aria-label="약관 및 정책" className="flex flex-wrap gap-2 lg:block">
-            {policyNavItems.map((item) => (
+          <p className="mb-4 text-sm font-bold text-[#8a94a6]">{t.sectionLabel}</p>
+          <nav aria-label={t.navLabel} className="flex flex-wrap gap-2 lg:block">
+            {(['privacy', 'terms'] as const).map((itemSlug) => (
               <a
-                key={item.slug}
-                href={item.href}
+                key={itemSlug}
+                href={getPolicyPath(itemSlug, language)}
                 className={`block rounded-lg px-4 py-3 text-sm font-bold transition-colors lg:mt-2 lg:text-base ${
-                  item.slug === slug ? 'bg-[#f6f7f9] text-[#111827]' : 'text-[#4b5563] hover:bg-[#f6f7f9]'
+                  itemSlug === slug ? 'bg-[#f6f7f9] text-[#111827]' : 'text-[#4b5563] hover:bg-[#f6f7f9]'
                 }`}
               >
-                {item.label}
+                {t.policies[itemSlug]}
               </a>
             ))}
           </nav>
@@ -98,7 +124,7 @@ export function PolicyPage({ slug }: PolicyPageProps) {
 
         <main className="w-full max-w-[1130px] px-5 py-7 leading-[1.75] md:px-10 md:py-9 xl:px-[72px] xl:pb-20">
           <a href="/" className="mb-5 inline-flex text-sm font-bold text-[#8a94a6]">
-            RAGO-X로 돌아가기
+            {t.backLabel}
           </a>
           {policy ? (
             <>
@@ -113,16 +139,16 @@ export function PolicyPage({ slug }: PolicyPageProps) {
             </>
           ) : null}
           {status === 'loading' ? (
-            <p className="mb-8 text-sm font-bold text-[#8a94a6]">정책을 불러오는 중입니다.</p>
+            <p className="mb-8 text-sm font-bold text-[#8a94a6]">{t.loading}</p>
           ) : null}
           {status === 'error' ? (
-            <p className="mb-8 text-sm font-bold text-[#8a94a6]">정책을 불러오지 못했습니다.</p>
+            <p className="mb-8 text-sm font-bold text-[#8a94a6]">{t.error}</p>
           ) : null}
           {policy ? <div className="policy-content" dangerouslySetInnerHTML={{ __html: policy.contentHtml }} /> : null}
         </main>
 
-        <aside className="sticky top-0 hidden h-screen bg-white px-7 py-[68px] xl:block" aria-label="목차">
-          <p className="mb-4 text-sm font-bold text-[#8a94a6]">목차</p>
+        <aside className="sticky top-0 hidden h-screen bg-white px-7 py-[68px] xl:block" aria-label={t.tocLabel}>
+          <p className="mb-4 text-sm font-bold text-[#8a94a6]">{t.tocLabel}</p>
           <nav>
             {policy?.toc.map((item) => (
               <a
