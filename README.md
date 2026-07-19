@@ -28,7 +28,7 @@ pnpm build
 
 ### 1. S3 버킷 준비
 
-S3 버킷을 만들고 정적 웹사이트 호스팅을 활성화합니다.
+배포 대상 S3 버킷은 `apps.icube-x.com-465768368057-ap-northeast-2-an`입니다. 버킷에서 정적 웹사이트 호스팅을 활성화합니다.
 
 - Index document: `index.html`
 - Error document: `index.html`
@@ -43,7 +43,7 @@ aws configure
 
 이미 프로필을 쓰고 있다면 배포 시 `AWS_PROFILE`을 지정합니다.
 
-배포용 IAM 사용자 또는 역할에는 최소한 아래 권한이 필요합니다. `Resource`의 버킷 이름은 실제 배포 버킷으로 바꿔서 사용하세요.
+배포용 IAM 사용자 또는 역할에는 최소한 아래 권한이 필요합니다.
 
 ```json
 {
@@ -52,12 +52,12 @@ aws configure
     {
       "Effect": "Allow",
       "Action": ["s3:ListBucket"],
-      "Resource": "arn:aws:s3:::your-bucket-name"
+      "Resource": "arn:aws:s3:::apps.icube-x.com-465768368057-ap-northeast-2-an"
     },
     {
       "Effect": "Allow",
       "Action": ["s3:PutObject", "s3:DeleteObject"],
-      "Resource": "arn:aws:s3:::your-bucket-name/*"
+      "Resource": "arn:aws:s3:::apps.icube-x.com-465768368057-ap-northeast-2-an/*"
     }
   ]
 }
@@ -66,26 +66,32 @@ aws configure
 ### 3. 배포
 
 ```bash
-S3_BUCKET=your-bucket-name pnpm deploy:s3
+S3_BUCKET=apps.icube-x.com-465768368057-ap-northeast-2-an pnpm deploy:s3
+```
+
+기본 배포 스크립트는 `landing_user` 프로필과 운영 버킷을 사용합니다.
+
+```bash
+pnpm deploy
 ```
 
 선택 옵션:
 
 ```bash
 # 특정 프로필 사용
-AWS_PROFILE=your-profile S3_BUCKET=your-bucket-name pnpm deploy:s3
+AWS_PROFILE=your-profile S3_BUCKET=apps.icube-x.com-465768368057-ap-northeast-2-an pnpm deploy:s3
 
 # 특정 리전 지정
-AWS_REGION=ap-northeast-2 S3_BUCKET=your-bucket-name pnpm deploy:s3
+AWS_REGION=ap-northeast-2 S3_BUCKET=apps.icube-x.com-465768368057-ap-northeast-2-an pnpm deploy:s3
 
 # 버킷 하위 경로에 배포
-S3_BUCKET=your-bucket-name S3_PREFIX=landing pnpm deploy:s3
+S3_BUCKET=apps.icube-x.com-465768368057-ap-northeast-2-an S3_PREFIX=landing pnpm deploy:s3
 
 # 실제 업로드 전 dry run
-S3_DRY_RUN=1 S3_BUCKET=your-bucket-name pnpm deploy:s3
+S3_DRY_RUN=1 S3_BUCKET=apps.icube-x.com-465768368057-ap-northeast-2-an pnpm deploy:s3
 
 # s3:ListBucket 권한 없이 업로드만 수행
-S3_UPLOAD_MODE=copy S3_BUCKET=your-bucket-name pnpm deploy:s3
+S3_UPLOAD_MODE=copy S3_BUCKET=apps.icube-x.com-465768368057-ap-northeast-2-an pnpm deploy:s3
 ```
 
 배포 스크립트는 해시가 붙은 정적 파일에는 장기 캐시를 적용하고, `index.html`에는 `no-cache`를 적용합니다.

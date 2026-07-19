@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Database, Zap, Shield, Users, ArrowRight, Check, MessageSquare, FileText, Brain, Star, ChevronRight, Code, X, Languages } from 'lucide-react';
+import { fetchPlanPrices, type PlanPriceCode, type PlanPriceMap } from '@/app/subscription/planPricesApi';
 
 type Language = 'ko' | 'en';
 
@@ -446,6 +447,12 @@ const featureVisuals = [
 
 const useCaseIcons = [MessageSquare, FileText, Brain, Code];
 
+const planPriceCodeByName: Partial<Record<string, PlanPriceCode>> = {
+  Starter: 'starter',
+  Pro: 'pro',
+  Business: 'business',
+};
+
 const screenshotShowcase = {
   ko: {
     eyebrow: '서비스 미리보기',
@@ -555,10 +562,20 @@ function detectInitialLanguage(): Language {
   return timezone === 'Asia/Seoul' || hasKoreanLocale ? 'ko' : 'en';
 }
 
+function getLanguageCode(language: Language): string {
+  return language === 'ko' ? 'ko-KR' : 'en-US';
+}
+
+function getPlanPrice(planName: string, fallbackPrice: string, planPrices: PlanPriceMap): string {
+  const planCode = planPriceCodeByName[planName];
+  return planCode ? planPrices[planCode] ?? fallbackPrice : fallbackPrice;
+}
+
 export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
   const [language, setLanguage] = useState<Language>(detectInitialLanguage);
   const [activeScreenshot, setActiveScreenshot] = useState(0);
+  const [planPrices, setPlanPrices] = useState<PlanPriceMap>({});
 
   const t = translations[language];
   const showcase = screenshotShowcase[language];
@@ -567,6 +584,26 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
   useEffect(() => {
     document.documentElement.lang = language;
     window.localStorage.setItem(languageStorageKey, language);
+  }, [language]);
+
+  useEffect(() => {
+    let ignore = false;
+
+    fetchPlanPrices(getLanguageCode(language))
+      .then((prices) => {
+        if (!ignore) {
+          setPlanPrices(prices);
+        }
+      })
+      .catch(() => {
+        if (!ignore) {
+          setPlanPrices({});
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
   }, [language]);
 
   useEffect(() => {
@@ -898,6 +935,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
             {t.plans.map((plan, idx) => {
               const highlighted = idx === 2;
+              const displayedPrice = getPlanPrice(plan.name, plan.price, planPrices);
 
               return (
                 <div
@@ -921,7 +959,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
                       {plan.name}
                     </h3>
                     <div className="mb-2">
-                      <span className="text-2xl font-bold text-gray-900">{plan.price}</span>
+                      <span className="text-2xl font-bold text-gray-900">{displayedPrice}</span>
                       {plan.priceDetail && (
                         <div className="text-sm text-gray-600 mt-1">{plan.priceDetail}</div>
                       )}

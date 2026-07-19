@@ -1,16 +1,10 @@
-import { policies, type PolicyDocument, type PolicySlug, type PolicyTocItem } from '@/app/policies/policyContent';
+import { apiBaseUrl } from '@/app/api/apiConfig';
+import type { PolicyDocument, PolicySlug, PolicyTocItem } from '@/app/policies/policyContent';
 
 const policyCodes: Record<PolicySlug, string> = {
   terms: 'TERMS_OF_SERVICE',
   privacy: 'PRIVACY_POLICY',
 };
-
-const fallbackTitles: Record<PolicySlug, string> = {
-  terms: '서비스 이용약관',
-  privacy: '개인정보처리방침',
-};
-
-const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000').replace(/\/+$/, '');
 
 type PolicyApiResponse = Record<string, unknown>;
 
@@ -33,10 +27,6 @@ export async function fetchPolicy(slug: PolicySlug, languageCode = 'ko-KR'): Pro
   return normalizePolicy(slug, payload);
 }
 
-export function getFallbackPolicy(slug: PolicySlug): PolicyDocument {
-  return policies[slug];
-}
-
 function unwrapPolicyPayload(payload: PolicyApiResponse): PolicyApiResponse {
   const nested = payload.data ?? payload.policy ?? payload.result;
   return isRecord(nested) ? nested : payload;
@@ -57,7 +47,11 @@ function normalizePolicy(slug: PolicySlug, payload: PolicyApiResponse): PolicyDo
     throw new Error('Policy API response does not include content');
   }
 
-  const title = readString(payload, ['title', 'name', 'policyTitle', 'policy_title']) || fallbackTitles[slug];
+  const title = readString(payload, ['title', 'name', 'policyTitle', 'policy_title']);
+  if (!title) {
+    throw new Error('Policy API response does not include title');
+  }
+
   const effectiveDate = formatEffectiveDate(
     readString(payload, [
       'effectiveDate',
