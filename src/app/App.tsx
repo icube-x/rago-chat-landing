@@ -1,5 +1,6 @@
 import { LandingPage } from '@/app/components/LandingPage';
 import { PolicyPage } from '@/app/components/PolicyPage';
+import { SupportPage } from '@/app/components/SupportPage';
 
 function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -10,6 +11,10 @@ function App() {
 
   if (path === '/privacy' || path === '/privacy.html' || path.startsWith('/policy-privacy')) {
     return <PolicyPage slug="privacy" />;
+  }
+
+  if (path === '/support' || path === '/support.html' || path === '/customer-support') {
+    return <SupportPage />;
   }
 
   const handleGetStarted = () => {
