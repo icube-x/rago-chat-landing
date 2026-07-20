@@ -212,6 +212,7 @@ const translations = {
       careers: '채용',
       privacy: '개인정보처리방침',
       terms: '서비스 이용약관',
+      customerCenter: '고객센터',
       businessInfo: {
         companyService: '회사명: 아이큐브엑스 | 서비스명: RAGO-X',
         ceo: '대표자: 이상원',
@@ -423,6 +424,7 @@ const translations = {
       careers: 'Careers',
       privacy: 'Privacy policy',
       terms: 'Terms of service',
+      customerCenter: 'Customer support',
       businessInfo: {
         companyService: 'Company: icube-x | Service: RAGO-X',
         ceo: 'Representative: Sangwon Lee',
@@ -1099,6 +1101,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
                 <li><a href="#" className="hover:text-white transition-colors">{t.footer.careers}</a></li>
                 <li><a href="/privacy" className="hover:text-white transition-colors">{t.footer.privacy}</a></li>
                 <li><a href="/terms" className="hover:text-white transition-colors">{t.footer.terms}</a></li>
+                <li><a href="/support" className="hover:text-white transition-colors">{t.footer.customerCenter}</a></li>
               </ul>
             </nav>
           </div>

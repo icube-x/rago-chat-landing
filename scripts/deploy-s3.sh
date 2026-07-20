@@ -77,10 +77,15 @@ run_aws s3 cp dist/index.html "$target/privacy" \
   --cache-control "no-cache,no-store,must-revalidate" \
   --content-type "text/html; charset=utf-8"
 
+run_aws s3 cp dist/index.html "$target/support" \
+  --cache-control "no-cache,no-store,must-revalidate" \
+  --content-type "text/html; charset=utf-8"
+
 legacy_routes=(
   "terms.html"
   "terms-en.html"
   "privacy.html"
+  "support.html"
   "policy-terms.html"
   "policy-terms-v2.html"
   "policy-privacy.html"
