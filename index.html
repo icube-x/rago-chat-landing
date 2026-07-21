@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Keep this fallback policy synchronized with infra/cloudfront-response-headers-policy.json.
+      WARNING: Removing an allowed host can break analytics, API calls, or document preview images.
+      frame-ancestors is intentionally enforced by the HTTP header because browsers ignore it in meta CSP.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'self'; script-src 'self' https://www.googletagmanager.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://www.google-analytics.com; font-src 'self' data:; connect-src 'self' https://api.rago-x.chat https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests"
+    />
     <link rel="icon" type="image/png" href="/icube-x%20logo.png" />
     <link rel="apple-touch-icon" href="/icube-x%20logo.png" />
     <title>icube-x</title>
