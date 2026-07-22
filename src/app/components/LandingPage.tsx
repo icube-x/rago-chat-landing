@@ -218,7 +218,7 @@ const translations = {
         ceo: '대표자: 이상원',
         address: '사업장 주소: 서울시 서초구 사임당로8길13, 4층 402-740A호',
         businessNumber: '사업자등록번호: 282-48-01199',
-        mailOrderNumber: '통신판매업 신고번호: 신고 전',
+        mailOrderNumber: '통신판매업 신고번호: 제2026-서울서초-2466호',
         contact: '고객센터: support@icube-x.com',
         privacyOfficer: '개인정보 보호책임자: 이상원',
       },
