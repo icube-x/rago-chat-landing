@@ -5,7 +5,7 @@ export interface Tenant {
   uuid: string;
   name: string;
   slug: string; // URL friendly name (e.g., 'acme-corp')
-  subdomain?: string; // Optional subdomain (e.g., 'acme' for acme.kl-store.com)
+  subdomain?: string; // Optional subdomain (e.g., 'acme' for acme.rago-x.chat)
   logo?: string;
   plan: 'TRIAL' | 'PAID';  // TRIAL: 무료 체험, PAID: 인당 과금
   status: 'ACTIVE' | 'SUSPENDED' | 'TRIAL_EXPIRED';

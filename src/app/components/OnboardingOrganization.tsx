@@ -214,7 +214,7 @@ export function OnboardingOrganization({ initialOrganizationName = '', onComplet
               )}
               {!slugError && !isCheckingSlug && slug && (
                 <p className="mt-1 text-xs text-gray-500">
-                  조직의 고유 URL: {slug}.kl-store.com
+                  조직의 고유 URL: {slug}.rago-x.chat
                 </p>
               )}
             </div>
