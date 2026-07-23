@@ -3,7 +3,8 @@ import { ArrowLeft, Clock, Mail, MessageCircle, ShieldCheck } from 'lucide-react
 
 type Language = 'ko' | 'en';
 
-const languageStorageKey = 'kl-store-language';
+const languageStorageKey = 'rago-x-language';
+const legacyLanguageStorageKey = 'kl-store-language';
 const supportEmail = 'support@icube-x.com';
 
 const supportContent = {
@@ -48,7 +49,8 @@ const supportContent = {
 function detectInitialLanguage(): Language {
   if (typeof window === 'undefined') return 'en';
 
-  const savedLanguage = window.localStorage.getItem(languageStorageKey);
+  const savedLanguage = window.localStorage.getItem(languageStorageKey)
+    ?? window.localStorage.getItem(legacyLanguageStorageKey);
   if (savedLanguage === 'ko' || savedLanguage === 'en') return savedLanguage;
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;

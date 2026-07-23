@@ -50,11 +50,15 @@ if [[ "$upload_mode" == "copy" ]]; then
   run_aws s3 cp dist "$target" \
     --recursive \
     --exclude "*.html" \
+    --exclude "robots.txt" \
+    --exclude "sitemap.xml" \
     --cache-control "public,max-age=31536000,immutable"
 else
   run_aws s3 sync dist "$target" \
     --delete \
     --exclude "*.html" \
+    --exclude "robots.txt" \
+    --exclude "sitemap.xml" \
     --cache-control "public,max-age=31536000,immutable"
 fi
 
@@ -68,6 +72,14 @@ run_aws s3 cp dist "$target" \
 run_aws s3 cp dist/index.html "$target/index.html" \
   --cache-control "no-cache,no-store,must-revalidate" \
   --content-type "text/html; charset=utf-8"
+
+run_aws s3 cp dist/robots.txt "$target/robots.txt" \
+  --cache-control "public,max-age=3600" \
+  --content-type "text/plain; charset=utf-8"
+
+run_aws s3 cp dist/sitemap.xml "$target/sitemap.xml" \
+  --cache-control "public,max-age=3600" \
+  --content-type "application/xml; charset=utf-8"
 
 run_aws s3 cp dist/index.html "$target/terms" \
   --cache-control "no-cache,no-store,must-revalidate" \

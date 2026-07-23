@@ -4,7 +4,8 @@ import { fetchPlanPrices, type PlanPriceCode, type PlanPriceMap } from '@/app/su
 
 type Language = 'ko' | 'en';
 
-const languageStorageKey = 'kl-store-language';
+const languageStorageKey = 'rago-x-language';
+const legacyLanguageStorageKey = 'kl-store-language';
 
 interface LandingPageProps {
   onGetStarted: () => void;
@@ -214,7 +215,7 @@ const translations = {
       terms: '서비스 이용약관',
       customerCenter: '고객센터',
       businessInfo: {
-        companyService: '회사명: 아이큐브엑스 | 서비스명: RAGO-X',
+        companyService: '회사명: 아이큐브엑스(icube-x) | 서비스명: RAGO-X',
         ceo: '대표자: 이상원',
         address: '사업장 주소: 서울시 서초구 사임당로8길13, 4층 402-740A호',
         businessNumber: '사업자등록번호: 282-48-01199',
@@ -426,7 +427,7 @@ const translations = {
       terms: 'Terms of service',
       customerCenter: 'Customer support',
       businessInfo: {
-        companyService: 'Company: icube-x | Service: RAGO-X',
+        companyService: 'Company: 아이큐브엑스 (icube-x) | Service: RAGO-X',
         ceo: 'Representative: Sangwon Lee',
         address: 'Address: 4F 402-740A, 13 Saimdang-ro 8-gil, Seocho-gu, Seoul, Korea',
         businessNumber: 'Business registration no.: 282-48-01199',
@@ -552,7 +553,8 @@ function detectInitialLanguage(): Language {
     return 'en';
   }
 
-  const savedLanguage = window.localStorage.getItem(languageStorageKey);
+  const savedLanguage = window.localStorage.getItem(languageStorageKey)
+    ?? window.localStorage.getItem(legacyLanguageStorageKey);
   if (savedLanguage === 'ko' || savedLanguage === 'en') {
     return savedLanguage;
   }

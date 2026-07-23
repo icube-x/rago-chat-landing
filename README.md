@@ -1,6 +1,6 @@
-# KL-Store Landing Page
+# RAGO-X Landing Page
 
-KL-Store 서비스의 랜딩 페이지입니다.
+아이큐브엑스(icube-x)의 AI RAG 지식관리 플랫폼 RAGO-X 랜딩 페이지입니다.
 
 ## 기술 스택
 

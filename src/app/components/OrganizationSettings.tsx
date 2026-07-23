@@ -153,7 +153,7 @@ export function OrganizationSettings() {
                     disabled={!isOwner}
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50 font-mono text-sm"
                   />
-                  <span className="text-sm text-gray-500">.kl-store.com</span>
+                  <span className="text-sm text-gray-500">.rago-x.chat</span>
                 </div>
               </div>
 
